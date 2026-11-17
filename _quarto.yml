@@ -2,13 +2,15 @@ project:
   type: website
 
 website:
-  title: "Driveline Athlete Assessments"
+  title: "Driveline Assessments"
   navbar:
     background: "#243447"
     foreground: "#ffffff"
     left:
       - text: "Home"
         href: index.qmd
+      - text: "Explore"
+        href: explore.qmd
 
 format:
   html:
