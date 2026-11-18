@@ -1,0 +1,39 @@
+---
+title: "A pitch is a sequence, not a single number"
+subtitle: "A short guide to the events and measurements behind the charts"
+---
+
+Pitching summaries often reduce a delivery to a speed or a peak. Motion-capture
+data lets us look at how measurements change across the recorded movement.
+These events help orient the plots; the dataset does not label every point as
+a universal phase of pitching.
+
+## Three moments to keep in mind
+
+1. **Foot plant (FP)** is the point when the stride foot contacts the ground.
+   The dataset includes some body positions and angles at this event.
+2. **Maximum external rotation (MER)** is a shoulder-position milestone in the
+   dataset. The elbow flexion measure at MER describes one joint angle at that
+   moment; it is not itself a measure of injury.
+3. **Ball release (BR)** is the delivery endpoint represented in several
+   pitch-level measures. The full-signal charts show values across the
+   recorded timeline, rather than only at these named events.
+
+## From movement to a chart
+
+The [Explore page](explore.qmd) pairs shoulder internal/external rotation
+velocity with elbow varus/valgus moment at matching timestamps. Its time-course
+view then aligns trials by relative recorded duration. This makes the broad
+shape of the measured signal easier to compare, but it does not mean every
+pitch has identical timing or that a relative-time point corresponds exactly
+to a named event above.
+
+The [pitch comparison](compare.qmd) switches perspective: each point represents
+one trial, using its pitch speed and peak elbow varus moment. Looking at both
+views helps distinguish a changing signal within a pitch from differences
+between pitches.
+
+::: callout-note
+An elbow moment is a biomechanical estimate of joint loading, not a direct
+measurement of tissue damage. No injury outcomes are included in these data.
+:::

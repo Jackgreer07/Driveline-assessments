@@ -1,0 +1,38 @@
+---
+title: "How to read the measurements"
+subtitle: "Data source, chart construction, and limits"
+---
+
+## Data used here
+
+The project uses the Driveline Baseball Research & Development
+[OpenBiomechanics Project](https://github.com/drivelineresearch/openbiomechanics).
+Its pitching release includes 411 trials. The full-signal charts use shoulder
+rotation velocity and elbow moment sampled over time; the pitch comparison
+uses the one-row-per-trial point-of-interest (POI) summary file.
+
+## How the charts are built
+
+- The shoulder-velocity and elbow-moment signals are joined by trial ID and
+  timestamp. Only matched rows with both measurements present are plotted.
+- For the time-course chart, each trial's timestamps are rescaled to its own
+  recorded duration. The median and interquartile range are then summarized
+  across trials at each relative-time percentage.
+- The peak-moment distribution uses one maximum signed elbow-moment value per
+  trial, so trials with more sampled timestamps do not contribute more often.
+- The pitch comparison uses one row per trial with available pitch speed and
+  peak elbow varus moment. Its trend line summarizes the observed association.
+
+## Important limits
+
+These are descriptive biomechanics data, not a clinical study. Repeated
+timestamps from one trial are related observations, not separate pitches.
+Relative time helps align signal shapes but does not identify a shared
+biomechanical event. A joint moment is not a direct measurement of tissue
+stress or injury, and the dataset does not provide confirmed injury outcomes.
+The charts should not be used to diagnose an athlete or estimate individual
+injury risk.
+
+See the project's [pitching data dictionary](https://github.com/drivelineresearch/openbiomechanics/blob/main/baseball_pitching/data/data_dictionary.csv)
+for field definitions and the [data license](https://github.com/drivelineresearch/openbiomechanics/blob/main/LICENSE-DATA.md)
+for terms of use.

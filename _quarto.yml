@@ -9,8 +9,16 @@ website:
     left:
       - text: "Home"
         href: index.qmd
+      - text: "Pitch story"
+        href: story.qmd
       - text: "Explore"
         href: explore.qmd
+      - text: "Compare pitches"
+        href: compare.qmd
+      - text: "Methods"
+        href: methods.qmd
+      - text: "About"
+        href: about.qmd
 
 format:
   html:

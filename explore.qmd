@@ -7,6 +7,21 @@ How do throwing mechanics relate to elbow loading? This scatterplot compares
 shoulder rotation velocity and elbow varus/valgus moment throughout pitching
 motion-capture trials.
 
+## What do these variables mean?
+
+- **Shoulder rotation velocity** (`shoulder_velo_z`) describes how quickly
+  the shoulder rotates, measured in degrees per second (deg/s). In these
+  charts, internal rotation is negative and external rotation is positive; the
+  sign shows direction, not whether a value is good or bad.
+- **Elbow varus/valgus moment** (`elbow_moment_y`) describes a twisting effect
+  around the elbow. A moment (torque) depends on force and its distance from
+  the joint, so it is not the same as force alone. It is measured in
+  newton-metres (Nm); this dataset labels positive values as varus and
+  negative values as valgus.
+- **Peak moment** in the distribution plot means the highest signed value
+  within each pitch, not the largest absolute value. A joint moment is a
+  biomechanical estimate, not a direct measurement of tissue damage.
+
 ## What this can—and cannot—tell us
 
 These measurements can help explore how mechanics and joint loading vary

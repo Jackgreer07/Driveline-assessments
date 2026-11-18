@@ -1,0 +1,91 @@
+---
+title: "Compare pitch speed and elbow moment"
+subtitle: "Each point represents one pitch-level trial"
+---
+
+The plot compares pitch speed with peak elbow varus moment. Hover over a point
+to see its trial ID and measurements; use the legend to focus on throwing-hand
+groups, and zoom or pan to inspect dense regions.
+
+Pitch speed is measured in miles per hour (mph). Peak elbow varus moment is a
+twisting effect around the elbow, measured in newton-metres (Nm); positive
+values indicate varus and negative values indicate valgus under this dataset's
+sign convention. It is a biomechanical estimate, not a direct measurement of
+tissue damage.
+
+```{r}
+#| label: fig-pitch-speed-moment
+#| fig-cap: "Pitch speed and peak elbow varus moment for each pitching trial. The line summarizes the overall linear trend; it is descriptive, not causal."
+#| fig-width: 9
+#| fig-height: 6
+
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(plotly)
+
+data_url <- paste0(
+  "https://raw.githubusercontent.com/drivelineresearch/openbiomechanics/",
+  "main/baseball_pitching/data/poi/poi_metrics.csv"
+)
+
+pitch_data <- read_csv(
+  data_url,
+  col_select = c(
+    session_pitch,
+    p_throws,
+    pitch_speed_mph,
+    elbow_varus_moment
+  ),
+  show_col_types = FALSE
+) |>
+  filter(
+    !is.na(pitch_speed_mph),
+    !is.na(elbow_varus_moment)
+  )
+
+plot <- ggplot(
+  pitch_data,
+  aes(
+    x = pitch_speed_mph,
+    y = elbow_varus_moment,
+    color = p_throws,
+    text = paste(
+      "Trial:", session_pitch,
+      "<br>Throwing hand:", p_throws,
+      "<br>Pitch speed:", pitch_speed_mph, "mph",
+      "<br>Peak elbow varus moment:", elbow_varus_moment, "Nm"
+    )
+  )
+) +
+  geom_point(alpha = 0.75, size = 2) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = TRUE,
+    color = "#C45435",
+    linewidth = 0.9
+  ) +
+  scale_color_manual(
+    values = c("R" = "#176B87", "L" = "#C45435"),
+    labels = c("R" = "Right-handed", "L" = "Left-handed")
+  ) +
+  labs(
+    x = "Pitch speed (mph)",
+    y = "Peak elbow varus moment (Nm)",
+    color = "Throwing hand"
+  ) +
+  theme_minimal(base_size = 13)
+
+ggplotly(plot, tooltip = "text")
+```
+
+The file contains **`r format(nrow(pitch_data), big.mark = ",")`** trials
+with both measurements. In this release all are fastballs, so this chart does
+not compare pitch types. The line and points describe an association in these
+trials only; they do not show that throwing faster causes a higher moment, or
+that either measure predicts injury.
+
+The source defines `elbow_varus_moment` as peak elbow varus moment in
+newton-metres (Nm). See the [data dictionary](https://raw.githubusercontent.com/drivelineresearch/openbiomechanics/main/baseball_pitching/data/data_dictionary.csv)
+and the [pitch-level data file](https://github.com/drivelineresearch/openbiomechanics/blob/main/baseball_pitching/data/poi/poi_metrics.csv).

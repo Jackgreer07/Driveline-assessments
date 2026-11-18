@@ -1,0 +1,20 @@
+---
+title: "About"
+---
+
+## About me
+
+**Jack Greer**  
+Email: [j.greer30@ncf.edu](mailto:j.greer30@ncf.edu)  
+GitHub: [@Jackgreer07](https://github.com/Jackgreer07)  
+Final project: [Driveline Assessments repository](https://github.com/Jackgreer07/Driveline-assessments)  
+[New College of Florida](https://www.ncf.edu/)
+
+## Data source
+
+This site uses Driveline Baseball Research & Development's
+[OpenBiomechanics pitching data](https://github.com/drivelineresearch/openbiomechanics),
+including its [full-signal release](https://github.com/drivelineresearch/openbiomechanics/releases/tag/dataset-v1)
+and [pitch-level summary file](https://github.com/drivelineresearch/openbiomechanics/blob/main/baseball_pitching/data/poi/poi_metrics.csv).
+The data are used under the project's
+[CC BY-NC-SA 4.0 data license](https://github.com/drivelineresearch/openbiomechanics/blob/main/LICENSE-DATA.md).
