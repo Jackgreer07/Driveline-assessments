@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Shoulder rotation and elbow loading during a pitch – Driveline Athlete Assessments</title>
+<title>Shoulder rotation and elbow loading during a pitch – Driveline Assessments</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Driveline Athlete Assessments</span>
+    <span class="navbar-title">Driveline Assessments</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -132,6 +132,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./explore.html"> 
+<span class="menu-text">Explore</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -149,8 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#shoulder-rotation-and-elbow-moment" id="toc-shoulder-rotation-and-elbow-moment" class="nav-link active" data-scroll-target="#shoulder-rotation-and-elbow-moment">Shoulder rotation and elbow moment</a></li>
-  <li><a href="#what-this-canand-cannottell-us" id="toc-what-this-canand-cannottell-us" class="nav-link" data-scroll-target="#what-this-canand-cannottell-us">What this can—and cannot—tell us</a></li>
+  <li><a href="#what-this-canand-cannottell-us" id="toc-what-this-canand-cannottell-us" class="nav-link active" data-scroll-target="#what-this-canand-cannottell-us">What this can—and cannot—tell us</a></li>
+  <li><a href="#shoulder-rotation-and-elbow-moment" id="toc-shoulder-rotation-and-elbow-moment" class="nav-link" data-scroll-target="#shoulder-rotation-and-elbow-moment">Shoulder rotation and elbow moment</a></li>
+  <li><a href="#how-elbow-moment-varies-during-a-pitch" id="toc-how-elbow-moment-varies-during-a-pitch" class="nav-link" data-scroll-target="#how-elbow-moment-varies-during-a-pitch">How elbow moment varies during a pitch</a></li>
+  <li><a href="#distribution-of-peak-elbow-varus-moment" id="toc-distribution-of-peak-elbow-varus-moment" class="nav-link" data-scroll-target="#distribution-of-peak-elbow-varus-moment">Distribution of peak elbow varus moment</a></li>
   <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data">About the data</a></li>
   </ul>
 </nav>
@@ -179,6 +185,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>How do throwing mechanics relate to elbow loading? This scatterplot compares shoulder rotation velocity and elbow varus/valgus moment throughout pitching motion-capture trials.</p>
+<section id="what-this-canand-cannottell-us" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-canand-cannottell-us">What this can—and cannot—tell us</h2>
+<p>These measurements can help explore how mechanics and joint loading vary together and may inform hypotheses about injury risk. The dataset does <strong>not</strong> include confirmed injury diagnoses, so it cannot establish which athletes were injured or validate an injury-risk estimate.</p>
+</section>
 <section id="shoulder-rotation-and-elbow-moment" class="level2">
 <h2 class="anchored" data-anchor-id="shoulder-rotation-and-elbow-moment">Shoulder rotation and elbow moment</h2>
 <div class="cell">
@@ -249,12 +259,102 @@ Figure&nbsp;1: Shoulder rotation velocity and elbow moment at matched time point
 </div>
 </div>
 </div>
+<p>This scatterplot helps show whether shoulder rotation speed and elbow moment tend to vary together during pitching. A pattern in the points can suggest an association between these mechanics, but it does not show that one causes the other or that either measure predicts injury.</p>
 <p>The chart contains <strong>246,065 matched time samples</strong> from <strong>411 pitching trials</strong>. Marker-derived signals are sampled at 360 Hz, so each pitch contributes many measurements over time. Samples from the same pitch are repeated observations, not independent pitches.</p>
 <p>Pitch speed and stride length are available in the project’s pitch-level summary data, alongside peak shoulder-rotation velocity and elbow varus moment. This chart focuses on the time-varying mechanics instead.</p>
 </section>
-<section id="what-this-canand-cannottell-us" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-canand-cannottell-us">What this can—and cannot—tell us</h2>
-<p>These measurements can help explore how mechanics and joint loading vary together and may inform hypotheses about injury risk. The dataset does <strong>not</strong> include confirmed injury diagnoses, so it cannot establish which athletes were injured or validate an injury-risk estimate.</p>
+<section id="how-elbow-moment-varies-during-a-pitch" class="level2">
+<h2 class="anchored" data-anchor-id="how-elbow-moment-varies-during-a-pitch">How elbow moment varies during a pitch</h2>
+<p>The next plot shows how elbow varus/valgus moment changes over the recorded duration of a pitch. Curves are aligned by each trial’s relative time and summarized with the median and interquartile range. This is an elbow loading measure, not a direct measurement of stress on shoulder tissue.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>moment_profile <span class="ot">&lt;-</span> plot_data <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(session_pitch) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitch_progress =</span> <span class="fu">round</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      (time <span class="sc">-</span> <span class="fu">min</span>(time)) <span class="sc">/</span> (<span class="fu">max</span>(time) <span class="sc">-</span> <span class="fu">min</span>(time)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(session_pitch, pitch_progress) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">elbow_moment_y =</span> <span class="fu">median</span>(elbow_moment_y), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pitch_progress) <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_moment =</span> <span class="fu">median</span>(elbow_moment_y),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower_moment =</span> <span class="fu">quantile</span>(elbow_moment_y, <span class="fl">0.25</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper_moment =</span> <span class="fu">quantile</span>(elbow_moment_y, <span class="fl">0.75</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(moment_profile, <span class="fu">aes</span>(<span class="at">x =</span> pitch_progress, <span class="at">y =</span> median_moment)) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> lower_moment, <span class="at">ymax =</span> upper_moment),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#8FC1D4"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#176B87"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Relative recorded pitch duration (%)"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Elbow varus (+) / valgus (-) moment (Nm)"</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-elbow-moment-time" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elbow-moment-time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-elbow-moment-time-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elbow-moment-time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Median elbow varus/valgus moment over the relative recorded duration of a pitch; shading shows the interquartile range across pitches.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This time-course plot adds context by showing when elbow moment tends to rise or fall over a pitch, while the shaded band shows how much the middle half of trials varies at each point. It helps locate phases of greater typical elbow loading and compare consistency across pitches; it does not measure shoulder tissue stress or establish injury risk.</p>
+</section>
+<section id="distribution-of-peak-elbow-varus-moment" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-of-peak-elbow-varus-moment">Distribution of peak elbow varus moment</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pitch_peak_moments <span class="ot">&lt;-</span> plot_data <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(session_pitch) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">peak_varus_moment =</span> <span class="fu">max</span>(elbow_moment_y), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pitch_peak_moments, <span class="fu">aes</span>(<span class="at">x =</span> peak_varus_moment)) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"#176B87"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="fu">median</span>(pitch_peak_moments<span class="sc">$</span>peak_varus_moment),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#C45435"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Peak elbow varus (+) / valgus (-) moment per pitch (Nm)"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of pitches"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"One peak value per pitch; dashed line is the median across"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">nrow</span>(pitch_peak_moments), <span class="st">"pitches."</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-varus-moment-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-varus-moment-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-varus-moment-distribution-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-varus-moment-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Distribution of each pitch’s peak signed elbow varus moment; the dashed line marks the median across pitches.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot shows how peak elbow moments are distributed across pitches, with one value per pitch so trials with more recorded time samples do not dominate the distribution. It compares peak elbow loading between trials, not how load is distributed across shoulder tissues or how much stress an individual shoulder experiences.</p>
 </section>
 <section id="about-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="about-the-data">About the data</h2>
@@ -338,7 +438,7 @@ Figure&nbsp;1: Shoulder rotation velocity and elbow moment at matched time point
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/Jackgreer07\.github\.io\/Driveline-assessments\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
