@@ -1,45 +1,38 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Shoulder rotation and elbow loading during a pitch",
+    "objectID": "methods.html",
+    "href": "methods.html",
+    "title": "How to read the measurements",
     "section": "",
-    "text": "How do throwing mechanics relate to elbow loading? This scatterplot compares shoulder rotation velocity and elbow varus/valgus moment throughout pitching motion-capture trials."
+    "text": "The project uses the Driveline Baseball Research & Development OpenBiomechanics Project. Its pitching release includes 411 trials. The full-signal charts use shoulder rotation velocity and elbow moment sampled over time; the pitch comparison uses the one-row-per-trial point-of-interest (POI) summary file."
   },
   {
-    "objectID": "index.html#what-this-canand-cannottell-us",
-    "href": "index.html#what-this-canand-cannottell-us",
-    "title": "Shoulder rotation and elbow loading during a pitch",
-    "section": "What this can—and cannot—tell us",
-    "text": "What this can—and cannot—tell us\nThese measurements can help explore how mechanics and joint loading vary together and may inform hypotheses about injury risk. The dataset does not include confirmed injury diagnoses, so it cannot establish which athletes were injured or validate an injury-risk estimate."
+    "objectID": "methods.html#data-used-here",
+    "href": "methods.html#data-used-here",
+    "title": "How to read the measurements",
+    "section": "",
+    "text": "The project uses the Driveline Baseball Research & Development OpenBiomechanics Project. Its pitching release includes 411 trials. The full-signal charts use shoulder rotation velocity and elbow moment sampled over time; the pitch comparison uses the one-row-per-trial point-of-interest (POI) summary file."
   },
   {
-    "objectID": "index.html#shoulder-rotation-and-elbow-moment",
-    "href": "index.html#shoulder-rotation-and-elbow-moment",
-    "title": "Shoulder rotation and elbow loading during a pitch",
-    "section": "Shoulder rotation and elbow moment",
-    "text": "Shoulder rotation and elbow moment\n\n\nCode\nlibrary(ggplot2)\nlibrary(readr)\nlibrary(dplyr)\n\nrelease_url &lt;- \"https://github.com/drivelineresearch/openbiomechanics/releases/download/dataset-v1\"\nforces_zip &lt;- file.path(tempdir(), \"pitching_forces_moments.zip\")\nvelos_zip &lt;- file.path(tempdir(), \"pitching_joint_velos.zip\")\n\ndownload.file(\n  paste(release_url, \"pitching_forces_moments.zip\", sep = \"/\"),\n  forces_zip,\n  mode = \"wb\",\n  quiet = TRUE\n)\ndownload.file(\n  paste(release_url, \"pitching_joint_velos.zip\", sep = \"/\"),\n  velos_zip,\n  mode = \"wb\",\n  quiet = TRUE\n)\n\nvelocities &lt;- read_csv(\n  unz(velos_zip, \"joint_velos.csv\"),\n  col_select = c(session_pitch, time, shoulder_velo_z),\n  show_col_types = FALSE\n)\nmoments &lt;- read_csv(\n  unz(forces_zip, \"forces_moments.csv\"),\n  col_select = c(session_pitch, time, elbow_moment_y),\n  show_col_types = FALSE\n)\n\nplot_data &lt;- inner_join(\n  velocities,\n  moments,\n  by = c(\"session_pitch\", \"time\"),\n  relationship = \"one-to-one\"\n) |&gt;\n  filter(!is.na(shoulder_velo_z), !is.na(elbow_moment_y))\n\nggplot(plot_data, aes(x = shoulder_velo_z, y = elbow_moment_y)) +\n  geom_point(alpha = 0.05, color = \"#176B87\", size = 0.5) +\n  labs(\n    x = \"Shoulder internal/external rotation velocity (deg/s; internal is negative)\",\n    y = \"Elbow varus (+) / valgus (-) moment (Nm)\",\n    caption = paste(\n      \"OpenBiomechanics Project; n =\", format(nrow(plot_data), big.mark = \",\"),\n      \"time samples across\", n_distinct(plot_data$session_pitch), \"pitch trials\"\n    )\n  ) +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\n\n\nFigure 1: Shoulder rotation velocity and elbow moment at matched time points during pitching trials.\n\n\n\n\n\nThis scatterplot helps show whether shoulder rotation speed and elbow moment tend to vary together during pitching. A pattern in the points can suggest an association between these mechanics, but it does not show that one causes the other or that either measure predicts injury.\nThe chart contains 246,065 matched time samples from 411 pitching trials. Marker-derived signals are sampled at 360 Hz, so each pitch contributes many measurements over time. Samples from the same pitch are repeated observations, not independent pitches.\nPitch speed and stride length are available in the project’s pitch-level summary data, alongside peak shoulder-rotation velocity and elbow varus moment. This chart focuses on the time-varying mechanics instead."
+    "objectID": "methods.html#how-the-charts-are-built",
+    "href": "methods.html#how-the-charts-are-built",
+    "title": "How to read the measurements",
+    "section": "How the charts are built",
+    "text": "How the charts are built\n\nThe shoulder-velocity and elbow-moment signals are joined by trial ID and timestamp. Only matched rows with both measurements present are plotted.\nFor the time-course chart, each trial’s timestamps are rescaled to its own recorded duration. The median and interquartile range are then summarized across trials at each relative-time percentage.\nThe peak-moment distribution uses one maximum signed elbow-moment value per trial, so trials with more sampled timestamps do not contribute more often.\nThe pitch comparison uses one row per trial with available pitch speed and peak elbow varus moment. Its trend line summarizes the observed association."
   },
   {
-    "objectID": "index.html#how-elbow-moment-varies-during-a-pitch",
-    "href": "index.html#how-elbow-moment-varies-during-a-pitch",
-    "title": "Shoulder rotation and elbow loading during a pitch",
-    "section": "How elbow moment varies during a pitch",
-    "text": "How elbow moment varies during a pitch\nThe next plot shows how elbow varus/valgus moment changes over the recorded duration of a pitch. Curves are aligned by each trial’s relative time and summarized with the median and interquartile range. This is an elbow loading measure, not a direct measurement of stress on shoulder tissue.\n\n\nCode\nmoment_profile &lt;- plot_data |&gt;\n  group_by(session_pitch) |&gt;\n  mutate(\n    pitch_progress = round(\n      (time - min(time)) / (max(time) - min(time)) * 100\n    )\n  ) |&gt;\n  group_by(session_pitch, pitch_progress) |&gt;\n  summarise(elbow_moment_y = median(elbow_moment_y), .groups = \"drop\") |&gt;\n  group_by(pitch_progress) |&gt;\n  summarise(\n    median_moment = median(elbow_moment_y),\n    lower_moment = quantile(elbow_moment_y, 0.25),\n    upper_moment = quantile(elbow_moment_y, 0.75),\n    .groups = \"drop\"\n  )\n\nggplot(moment_profile, aes(x = pitch_progress, y = median_moment)) +\n  geom_ribbon(\n    aes(ymin = lower_moment, ymax = upper_moment),\n    fill = \"#8FC1D4\",\n    alpha = 0.5\n  ) +\n  geom_line(color = \"#176B87\", linewidth = 1) +\n  labs(\n    x = \"Relative recorded pitch duration (%)\",\n    y = \"Elbow varus (+) / valgus (-) moment (Nm)\"\n  ) +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\n\n\nFigure 2: Median elbow varus/valgus moment over the relative recorded duration of a pitch; shading shows the interquartile range across pitches.\n\n\n\n\n\nThis time-course plot adds context by showing when elbow moment tends to rise or fall over a pitch, while the shaded band shows how much the middle half of trials varies at each point. It helps locate phases of greater typical elbow loading and compare consistency across pitches; it does not measure shoulder tissue stress or establish injury risk."
+    "objectID": "methods.html#important-limits",
+    "href": "methods.html#important-limits",
+    "title": "How to read the measurements",
+    "section": "Important limits",
+    "text": "Important limits\nThese are descriptive biomechanics data, not a clinical study. Repeated timestamps from one trial are related observations, not separate pitches. Relative time helps align signal shapes but does not identify a shared biomechanical event. A joint moment is not a direct measurement of tissue stress or injury, and the dataset does not provide confirmed injury outcomes. The charts should not be used to diagnose an athlete or estimate individual injury risk.\nSee the project’s pitching data dictionary for field definitions and the data license for terms of use."
   },
   {
-    "objectID": "index.html#distribution-of-peak-elbow-varus-moment",
-    "href": "index.html#distribution-of-peak-elbow-varus-moment",
-    "title": "Shoulder rotation and elbow loading during a pitch",
-    "section": "Distribution of peak elbow varus moment",
-    "text": "Distribution of peak elbow varus moment\n\n\nCode\npitch_peak_moments &lt;- plot_data |&gt;\n  group_by(session_pitch) |&gt;\n  summarise(peak_varus_moment = max(elbow_moment_y), .groups = \"drop\")\n\nggplot(pitch_peak_moments, aes(x = peak_varus_moment)) +\n  geom_histogram(bins = 30, fill = \"#176B87\", color = \"white\") +\n  geom_vline(\n    xintercept = median(pitch_peak_moments$peak_varus_moment),\n    linetype = \"dashed\",\n    color = \"#C45435\",\n    linewidth = 1\n  ) +\n  labs(\n    x = \"Peak elbow varus (+) / valgus (-) moment per pitch (Nm)\",\n    y = \"Number of pitches\",\n    caption = paste(\n      \"One peak value per pitch; dashed line is the median across\",\n      nrow(pitch_peak_moments), \"pitches.\"\n    )\n  ) +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\n\n\nFigure 3: Distribution of each pitch’s peak signed elbow varus moment; the dashed line marks the median across pitches.\n\n\n\n\n\nThis plot shows how peak elbow moments are distributed across pitches, with one value per pitch so trials with more recorded time samples do not dominate the distribution. It compares peak elbow loading between trials, not how load is distributed across shoulder tissues or how much stress an individual shoulder experiences."
-  },
-  {
-    "objectID": "index.html#about-the-data",
-    "href": "index.html#about-the-data",
-    "title": "Shoulder rotation and elbow loading during a pitch",
-    "section": "About the data",
-    "text": "About the data\nThe data come from Driveline Baseball Research & Development’s OpenBiomechanics Project. The repository documents 411 pitching trials, not 40,000 distinct pitches. The full-signal tables used here contain 247,709 matched timestamps across those trials; the chart includes samples where both measurements are present. The pitch-level table includes pitch speed, stride length, and summary loading metrics.\nSources: pitching full-signal release and pitching summary data. Used under the CC BY-NC-SA 4.0 data license."
+    "objectID": "compare.html",
+    "href": "compare.html",
+    "title": "Compare pitch speed and elbow moment",
+    "section": "",
+    "text": "The plot compares pitch speed with peak elbow varus moment. Hover over a point to see its trial ID and measurements; use the legend to focus on throwing-hand groups, and zoom or pan to inspect dense regions.\nPitch speed is measured in miles per hour (mph). Peak elbow varus moment is a twisting effect around the elbow, measured in newton-metres (Nm); positive values indicate varus and negative values indicate valgus under this dataset’s sign convention. It is a biomechanical estimate, not a direct measurement of tissue damage.\n\n\nCode\nlibrary(ggplot2)\nlibrary(readr)\nlibrary(dplyr)\nlibrary(plotly)\n\ndata_url &lt;- paste0(\n  \"https://raw.githubusercontent.com/drivelineresearch/openbiomechanics/\",\n  \"main/baseball_pitching/data/poi/poi_metrics.csv\"\n)\n\npitch_data &lt;- read_csv(\n  data_url,\n  col_select = c(\n    session_pitch,\n    p_throws,\n    pitch_speed_mph,\n    elbow_varus_moment\n  ),\n  show_col_types = FALSE\n) |&gt;\n  filter(\n    !is.na(pitch_speed_mph),\n    !is.na(elbow_varus_moment)\n  )\n\nplot &lt;- ggplot(\n  pitch_data,\n  aes(\n    x = pitch_speed_mph,\n    y = elbow_varus_moment,\n    color = p_throws,\n    text = paste(\n      \"Trial:\", session_pitch,\n      \"&lt;br&gt;Throwing hand:\", p_throws,\n      \"&lt;br&gt;Pitch speed:\", pitch_speed_mph, \"mph\",\n      \"&lt;br&gt;Peak elbow varus moment:\", elbow_varus_moment, \"Nm\"\n    )\n  )\n) +\n  geom_point(alpha = 0.75, size = 2) +\n  geom_smooth(\n    aes(group = 1),\n    method = \"lm\",\n    se = TRUE,\n    color = \"#C45435\",\n    linewidth = 0.9\n  ) +\n  scale_color_manual(\n    values = c(\"R\" = \"#176B87\", \"L\" = \"#C45435\"),\n    labels = c(\"R\" = \"Right-handed\", \"L\" = \"Left-handed\")\n  ) +\n  labs(\n    x = \"Pitch speed (mph)\",\n    y = \"Peak elbow varus moment (Nm)\",\n    color = \"Throwing hand\"\n  ) +\n  theme_minimal(base_size = 13)\n\nggplotly(plot, tooltip = \"text\")\n\n\n\n\n\n\n\n\nFigure 1: Pitch speed and peak elbow varus moment for each pitching trial. The line summarizes the overall linear trend; it is descriptive, not causal.\n\n\n\n\nThe file contains 411 trials with both measurements. In this release all are fastballs, so this chart does not compare pitch types. The line and points describe an association in these trials only; they do not show that throwing faster causes a higher moment, or that either measure predicts injury.\nThe source defines elbow_varus_moment as peak elbow varus moment in newton-metres (Nm). See the data dictionary and the pitch-level data file."
   },
   {
     "objectID": "explore.html",
@@ -47,6 +40,13 @@
     "title": "Shoulder rotation and elbow loading during a pitch",
     "section": "",
     "text": "How do throwing mechanics relate to elbow loading? This scatterplot compares shoulder rotation velocity and elbow varus/valgus moment throughout pitching motion-capture trials."
+  },
+  {
+    "objectID": "explore.html#what-do-these-variables-mean",
+    "href": "explore.html#what-do-these-variables-mean",
+    "title": "Shoulder rotation and elbow loading during a pitch",
+    "section": "What do these variables mean?",
+    "text": "What do these variables mean?\n\nShoulder rotation velocity (shoulder_velo_z) describes how quickly the shoulder rotates, measured in degrees per second (deg/s). In these charts, internal rotation is negative and external rotation is positive; the sign shows direction, not whether a value is good or bad.\nElbow varus/valgus moment (elbow_moment_y) describes a twisting effect around the elbow. A moment (torque) depends on force and its distance from the joint, so it is not the same as force alone. It is measured in newton-metres (Nm); this dataset labels positive values as varus and negative values as valgus.\nPeak moment in the distribution plot means the highest signed value within each pitch, not the largest absolute value. A joint moment is a biomechanical estimate, not a direct measurement of tissue damage."
   },
   {
     "objectID": "explore.html#what-this-canand-cannottell-us",
@@ -82,5 +82,61 @@
     "title": "Shoulder rotation and elbow loading during a pitch",
     "section": "About the data",
     "text": "About the data\nThe data come from Driveline Baseball Research & Development’s OpenBiomechanics Project. The repository documents 411 pitching trials, not 40,000 distinct pitches. The full-signal tables used here contain 247,709 matched timestamps across those trials; the chart includes samples where both measurements are present. The pitch-level table includes pitch speed, stride length, and summary loading metrics.\nSources: pitching full-signal release and pitching summary data. Used under the CC BY-NC-SA 4.0 data license."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Jack Greer\nEmail: j.greer30@ncf.edu\nGitHub: @Jackgreer07\nFinal project: Driveline Assessments repository\nNew College of Florida"
+  },
+  {
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
+    "title": "About",
+    "section": "",
+    "text": "Jack Greer\nEmail: j.greer30@ncf.edu\nGitHub: @Jackgreer07\nFinal project: Driveline Assessments repository\nNew College of Florida"
+  },
+  {
+    "objectID": "about.html#data-source",
+    "href": "about.html#data-source",
+    "title": "About",
+    "section": "Data source",
+    "text": "Data source\nThis site uses Driveline Baseball Research & Development’s OpenBiomechanics pitching data, including its full-signal release and pitch-level summary file. The data are used under the project’s CC BY-NC-SA 4.0 data license."
+  },
+  {
+    "objectID": "story.html",
+    "href": "story.html",
+    "title": "A pitch is a sequence, not a single number",
+    "section": "",
+    "text": "Pitching summaries often reduce a delivery to a speed or a peak. Motion-capture data lets us look at how measurements change across the recorded movement. These events help orient the plots; the dataset does not label every point as a universal phase of pitching."
+  },
+  {
+    "objectID": "story.html#three-moments-to-keep-in-mind",
+    "href": "story.html#three-moments-to-keep-in-mind",
+    "title": "A pitch is a sequence, not a single number",
+    "section": "Three moments to keep in mind",
+    "text": "Three moments to keep in mind\n\nFoot plant (FP) is the point when the stride foot contacts the ground. The dataset includes some body positions and angles at this event.\nMaximum external rotation (MER) is a shoulder-position milestone in the dataset. The elbow flexion measure at MER describes one joint angle at that moment; it is not itself a measure of injury.\nBall release (BR) is the delivery endpoint represented in several pitch-level measures. The full-signal charts show values across the recorded timeline, rather than only at these named events."
+  },
+  {
+    "objectID": "story.html#from-movement-to-a-chart",
+    "href": "story.html#from-movement-to-a-chart",
+    "title": "A pitch is a sequence, not a single number",
+    "section": "From movement to a chart",
+    "text": "From movement to a chart\nThe Explore page pairs shoulder internal/external rotation velocity with elbow varus/valgus moment at matching timestamps. Its time-course view then aligns trials by relative recorded duration. This makes the broad shape of the measured signal easier to compare, but it does not mean every pitch has identical timing or that a relative-time point corresponds exactly to a named event above.\nThe pitch comparison switches perspective: each point represents one trial, using its pitch speed and peak elbow varus moment. Looking at both views helps distinguish a changing signal within a pitch from differences between pitches.\n\n\n\n\n\n\nNote\n\n\n\nAn elbow moment is a biomechanical estimate of joint loading, not a direct measurement of tissue damage. No injury outcomes are included in these data."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "What can pitching data tell us about elbow loading?",
+    "section": "",
+    "text": "A pitch is a fast-moving sequence of coordinated actions. This project uses public motion-capture data to explore how shoulder rotation and elbow loading change during a pitch, and how peak elbow moment varies across trials.\nThe site has three ways to explore the question:"
+  },
+  {
+    "objectID": "index.html#read-the-results-carefully",
+    "href": "index.html#read-the-results-carefully",
+    "title": "What can pitching data tell us about elbow loading?",
+    "section": "Read the results carefully",
+    "text": "Read the results carefully\nThe dataset contains biomechanical measurements, not injury diagnoses. These plots can describe patterns in the recorded trials, but they cannot show that a mechanical pattern caused an injury or predicts an individual athlete’s risk. The Methods page explains what the measurements represent and how to interpret the charts."
   }
 ]

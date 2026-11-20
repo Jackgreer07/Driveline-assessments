@@ -134,8 +134,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./story.html"> 
+<span class="menu-text">Pitch story</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./explore.html" aria-current="page"> 
 <span class="menu-text">Explore</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./compare.html"> 
+<span class="menu-text">Compare pitches</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./methods.html"> 
+<span class="menu-text">Methods</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -153,7 +169,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-this-canand-cannottell-us" id="toc-what-this-canand-cannottell-us" class="nav-link active" data-scroll-target="#what-this-canand-cannottell-us">What this can—and cannot—tell us</a></li>
+  <li><a href="#what-do-these-variables-mean" id="toc-what-do-these-variables-mean" class="nav-link active" data-scroll-target="#what-do-these-variables-mean">What do these variables mean?</a></li>
+  <li><a href="#what-this-canand-cannottell-us" id="toc-what-this-canand-cannottell-us" class="nav-link" data-scroll-target="#what-this-canand-cannottell-us">What this can—and cannot—tell us</a></li>
   <li><a href="#shoulder-rotation-and-elbow-moment" id="toc-shoulder-rotation-and-elbow-moment" class="nav-link" data-scroll-target="#shoulder-rotation-and-elbow-moment">Shoulder rotation and elbow moment</a></li>
   <li><a href="#how-elbow-moment-varies-during-a-pitch" id="toc-how-elbow-moment-varies-during-a-pitch" class="nav-link" data-scroll-target="#how-elbow-moment-varies-during-a-pitch">How elbow moment varies during a pitch</a></li>
   <li><a href="#distribution-of-peak-elbow-varus-moment" id="toc-distribution-of-peak-elbow-varus-moment" class="nav-link" data-scroll-target="#distribution-of-peak-elbow-varus-moment">Distribution of peak elbow varus moment</a></li>
@@ -185,6 +202,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>How do throwing mechanics relate to elbow loading? This scatterplot compares shoulder rotation velocity and elbow varus/valgus moment throughout pitching motion-capture trials.</p>
+<section id="what-do-these-variables-mean" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-these-variables-mean">What do these variables mean?</h2>
+<ul>
+<li><strong>Shoulder rotation velocity</strong> (<code>shoulder_velo_z</code>) describes how quickly the shoulder rotates, measured in degrees per second (deg/s). In these charts, internal rotation is negative and external rotation is positive; the sign shows direction, not whether a value is good or bad.</li>
+<li><strong>Elbow varus/valgus moment</strong> (<code>elbow_moment_y</code>) describes a twisting effect around the elbow. A moment (torque) depends on force and its distance from the joint, so it is not the same as force alone. It is measured in newton-metres (Nm); this dataset labels positive values as varus and negative values as valgus.</li>
+<li><strong>Peak moment</strong> in the distribution plot means the highest signed value within each pitch, not the largest absolute value. A joint moment is a biomechanical estimate, not a direct measurement of tissue damage.</li>
+</ul>
+</section>
 <section id="what-this-canand-cannottell-us" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-canand-cannottell-us">What this can—and cannot—tell us</h2>
 <p>These measurements can help explore how mechanics and joint loading vary together and may inform hypotheses about injury risk. The dataset does <strong>not</strong> include confirmed injury diagnoses, so it cannot establish which athletes were injured or validate an injury-risk estimate.</p>
