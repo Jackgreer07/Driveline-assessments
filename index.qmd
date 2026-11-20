@@ -7,6 +7,67 @@ A pitch is a fast-moving sequence of coordinated actions. This project uses
 public motion-capture data to explore how shoulder rotation and elbow loading
 change during a pitch, and how peak elbow moment varies across trials.
 
+## This graph is the key to understanding why this is important
+
+```{r}
+#| label: fig-home-shoulder-elbow
+#| fig-cap: "Shoulder rotation velocity and elbow moment at matched time points during pitching trials."
+#| fig-width: 9
+#| fig-height: 5.5
+
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+release_url <- "https://github.com/drivelineresearch/openbiomechanics/releases/download/dataset-v1"
+forces_zip <- file.path(tempdir(), "pitching_forces_moments.zip")
+velos_zip <- file.path(tempdir(), "pitching_joint_velos.zip")
+
+download.file(
+  paste(release_url, "pitching_forces_moments.zip", sep = "/"),
+  forces_zip,
+  mode = "wb",
+  quiet = TRUE
+)
+download.file(
+  paste(release_url, "pitching_joint_velos.zip", sep = "/"),
+  velos_zip,
+  mode = "wb",
+  quiet = TRUE
+)
+
+velocities <- read_csv(
+  unz(velos_zip, "joint_velos.csv"),
+  col_select = c(session_pitch, time, shoulder_velo_z),
+  show_col_types = FALSE
+)
+moments <- read_csv(
+  unz(forces_zip, "forces_moments.csv"),
+  col_select = c(session_pitch, time, elbow_moment_y),
+  show_col_types = FALSE
+)
+
+plot_data <- inner_join(
+  velocities,
+  moments,
+  by = c("session_pitch", "time"),
+  relationship = "one-to-one"
+) |>
+  filter(!is.na(shoulder_velo_z), !is.na(elbow_moment_y))
+
+ggplot(plot_data, aes(x = shoulder_velo_z, y = elbow_moment_y)) +
+  geom_point(alpha = 0.05, color = "#176B87", size = 0.5) +
+  labs(
+    x = "Shoulder rotation velocity (deg/s; internal is negative)",
+    y = "Elbow varus (+) / valgus (-) moment (Nm)"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+Each point pairs shoulder rotation and elbow loading at one moment in a pitch.
+Patterns show how these measures vary together, not that one causes injury or
+predicts an individual athlete's risk.
+
 The site has three ways to explore the question:
 
 - **[Follow the pitch story](story.qmd)** for a short guide to the key moments
