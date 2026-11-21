@@ -78,3 +78,173 @@ pre,
 .plotly {
   filter: invert(1) hue-rotate(180deg);
 }
+
+.pitch-hero {
+  position: relative;
+  min-height: 230px;
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  border: 1px solid #343a40;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 78% 28%, rgba(229, 107, 117, 0.12), transparent 24%),
+    linear-gradient(135deg, #111820 0%, #080b0f 72%);
+}
+
+.pitch-hero__copy {
+  position: absolute;
+  z-index: 2;
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
+.pitch-hero__eyebrow {
+  color: #e56b75;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pitch-hero__art {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  width: 76%;
+  height: 100%;
+  color: #dce4ea;
+}
+
+.pitch-hero .pitcher {
+  opacity: 0.72;
+}
+
+.pitch-hero .seam-arc {
+  fill: none;
+  stroke: #e56b75;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 10 9;
+}
+
+.pitch-hero .ball {
+  fill: #f8f9fa;
+  stroke: #e56b75;
+  stroke-width: 4;
+}
+
+.pitch-hero .ball-seam {
+  fill: none;
+  stroke: #e56b75;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.data-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.data-card {
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.1rem;
+  border: 1px solid #343a40;
+  border-top: 4px solid #e56b75;
+  border-radius: 10px;
+  background: #101418;
+}
+
+.data-card strong {
+  color: #ffffff;
+  font-size: 1.65rem;
+  line-height: 1.1;
+}
+
+.data-card span {
+  margin-top: 0.35rem;
+  color: #adb5bd;
+  font-size: 0.86rem;
+}
+
+.explore-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 2rem;
+}
+
+.explore-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 116px;
+  padding: 1rem;
+  border: 1px solid #343a40;
+  border-radius: 12px;
+  background: #101418;
+  color: #f8f9fa !important;
+  text-decoration: none;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.explore-card > a {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  color: #f8f9fa !important;
+  text-decoration: none;
+}
+
+.explore-card:hover {
+  transform: translateY(-3px);
+  border-color: #e56b75;
+  background: #171d23;
+  color: #ffffff !important;
+}
+
+.explore-card__icon {
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #e56b75;
+  border-radius: 50%;
+  color: #e56b75;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.explore-card strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #ffffff;
+}
+
+.explore-card p {
+  margin: 0;
+  color: #adb5bd;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 768px) {
+  .pitch-hero {
+    min-height: 200px;
+  }
+
+  .pitch-hero__art {
+    width: 100%;
+  }
+
+  .data-cards,
+  .explore-cards {
+    grid-template-columns: 1fr;
+  }
+}

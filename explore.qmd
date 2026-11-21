@@ -135,6 +135,11 @@ moment_profile <- plot_data |>
     .groups = "drop"
   )
 
+annotation_start <- moment_profile |>
+  slice_min(abs(pitch_progress - 82), n = 1)
+annotation_end <- moment_profile |>
+  slice_min(abs(pitch_progress - 88), n = 1)
+
 ggplot(moment_profile, aes(x = pitch_progress, y = median_moment)) +
   geom_ribbon(
     aes(ymin = lower_moment, ymax = upper_moment),
@@ -142,6 +147,27 @@ ggplot(moment_profile, aes(x = pitch_progress, y = median_moment)) +
     alpha = 0.5
   ) +
   geom_line(color = "#176B87", linewidth = 1) +
+  annotate(
+    "segment",
+    x = annotation_start$pitch_progress,
+    xend = annotation_end$pitch_progress,
+    y = annotation_start$median_moment,
+    yend = annotation_end$median_moment,
+    color = "#e56b75",
+    linewidth = 0.8,
+    arrow = arrow(length = unit(0.16, "cm"), type = "closed")
+  ) +
+  annotate(
+    "label",
+    x = 72,
+    y = max(moment_profile$median_moment, na.rm = TRUE) * 0.82,
+    label = "The load surges near the end of the pitch",
+    color = "#ffffff",
+    fill = "#9f2f3a",
+    label.size = 0,
+    hjust = 0,
+    size = 3.8
+  ) +
   labs(
     x = "Relative recorded pitch duration (%)",
     y = "Elbow varus (+) / valgus (-) moment (Nm)"

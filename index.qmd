@@ -3,9 +3,47 @@ title: "What can pitching data tell us about elbow loading?"
 subtitle: "A guided look at motion and joint moments in 411 pitching trials"
 ---
 
+::: {.pitch-hero role="img" aria-label="Illustration of a pitcher completing a throw toward a baseball"}
+
+::: {.pitch-hero__copy}
+<span class="pitch-hero__eyebrow">OpenBiomechanics Project</span>
+:::
+
+<svg class="pitch-hero__art" viewBox="0 0 700 240" aria-hidden="true">
+    <g class="pitcher" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="145" cy="62" r="20" fill="currentColor" stroke="none"></circle>
+      <path d="M142 82 C124 116 125 158 105 193"></path>
+      <path d="M142 82 C176 108 204 122 236 132"></path>
+      <path d="M236 132 C278 128 310 108 342 82"></path>
+      <path d="M105 193 C79 202 61 212 43 220"></path>
+      <path d="M105 193 C136 207 157 213 181 220"></path>
+      <path d="M132 104 C98 126 91 151 78 176"></path>
+    </g>
+    <path class="seam-arc" d="M310 89 C410 48 500 42 630 82"></path>
+    <circle class="ball" cx="636" cy="84" r="24"></circle>
+    <path class="ball-seam" d="M626 61 C643 71 643 97 626 107"></path>
+</svg>
+
+:::
+
 A pitch is a fast-moving sequence of coordinated actions. This project uses
 public motion-capture data to explore how shoulder rotation and elbow loading
 change during a pitch, and how peak elbow moment varies across trials.
+
+::: {.data-cards aria-label="Dataset summary"}
+::: {.data-card}
+<strong>411</strong>
+<span>pitching trials</span>
+:::
+::: {.data-card}
+<strong>360 Hz</strong>
+<span>marker sampling rate</span>
+:::
+::: {.data-card}
+<strong>Public</strong>
+<span>OpenBiomechanics data</span>
+:::
+:::
 
 ## This graph is the key to understanding why this is important
 
@@ -68,14 +106,37 @@ Each point pairs shoulder rotation and elbow loading at one moment in a pitch.
 Patterns show how these measures vary together, not that one causes injury or
 predicts an individual athlete's risk.
 
-The site has three ways to explore the question:
+## Three ways to explore
 
-- **[Follow the pitch story](story.qmd)** for a short guide to the key moments
-  and measures.
-- **[Explore the motion signals](explore.qmd)** to see the time-varying
-  relationship, elbow-moment profile, and distribution of pitch-level peaks.
-- **[Compare pitches](compare.qmd)** to inspect pitch speed and peak elbow
-  moment for individual trials. Hover over points for details.
+::: {.explore-cards}
+::: {.explore-card}
+<a href="story.qmd">
+<span class="explore-card__icon" aria-hidden="true">1</span>
+<div>
+<strong>Pitch story</strong>
+<p>Follow the pitch from setup to release.</p>
+</div>
+</a>
+:::
+::: {.explore-card}
+<a href="explore.qmd">
+<span class="explore-card__icon" aria-hidden="true">∿</span>
+<div>
+<strong>Explore</strong>
+<p>See how motion and loading change over time.</p>
+</div>
+</a>
+:::
+::: {.explore-card}
+<a href="compare.qmd">
+<span class="explore-card__icon" aria-hidden="true">↗</span>
+<div>
+<strong>Compare pitches</strong>
+<p>Compare speed and peak elbow moment.</p>
+</div>
+</a>
+:::
+:::
 
 ## Read the results carefully
 
