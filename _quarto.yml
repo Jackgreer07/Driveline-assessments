@@ -23,7 +23,7 @@ website:
 format:
   html:
     theme: cosmo
-    css: styles.css
+    css: styles-20261121.css
     toc: true
     code-fold: true
 
